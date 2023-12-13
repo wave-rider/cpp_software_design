@@ -10,6 +10,7 @@
 *
 **************************************************************************************************/
 
+#include <iostream>
 
 //---- <Circle.h> ---------------------------------------------------------------------------------
 
@@ -30,6 +31,22 @@ class Circle
    /* Several more data members */
 };
 
+class Triangle
+{
+ public:
+   explicit Triangle( double radius )
+      : radius_( radius )
+   {
+      /* Checking that the given radius is valid */
+   }
+
+   double radius() const { return radius_; }
+   /* Several more getters and circle-specific utility functions */
+
+ private:
+   double radius_;
+   /* Several more data members */
+};
 
 //---- <Square.h> ---------------------------------------------------------------------------------
 
@@ -100,11 +117,15 @@ class OpenGLDrawStrategy
 
    void operator()( Circle const& circle ) const
    {
-      // ... Implementing the logic for drawing a circle by means of OpenGL
+      std::cout << "the logic for drawing a circle by means of OpenGL\n";
    }
    void operator()( Square const& square ) const
    {
-      // ... Implementing the logic for drawing a square by means of OpenGL
+      std::cout << "the logic for drawing a square by means of OpenGL\n";
+   }
+   void operator()( Triangle const& square ) const
+   {
+      std::cout << "the logic for drawing a triangle by means of OpenGL\n";
    }
 
  private:
@@ -127,6 +148,7 @@ int main()
 
    using CircleModel = ShapeModel<Circle,OpenGLDrawStrategy>;
    using SquareModel = ShapeModel<Square,OpenGLDrawStrategy>;
+   using TriangleModel = ShapeModel<Triangle,OpenGLDrawStrategy>;
 
    Shapes shapes{};
 
@@ -139,8 +161,8 @@ int main()
       std::make_unique<SquareModel>(
          Square{1.2}, OpenGLDrawStrategy(/*...green...*/) ) );
    shapes.emplace_back(
-      std::make_unique<CircleModel>(
-         Circle{4.1}, OpenGLDrawStrategy(/*...blue...*/) ) );
+      std::make_unique<TriangleModel>(
+         Triangle{4.1}, OpenGLDrawStrategy(/*...blue...*/) ) );
 
    // Drawing all shapes
    for( auto const& shape : shapes )

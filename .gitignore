@@ -36,3 +36,5 @@
 .vs/
 .idea/
 out/
+Output/*
+.DS_Store
